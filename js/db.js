@@ -170,5 +170,14 @@ const autos = [
         puertas: 4, 
         color: 'Azul', 
         transmision: 'automatico' 
-    }
+    },
+	// { 
+    //     marca: 'Ford', 
+    //     modelo: 'F-100', 
+    //     year: 1989, 
+    //     precio: 30000, 
+    //     puertas: 2, 
+    //     color: 'Rojo', 
+    //     transmision: 'manual' 
+    // }
 ];

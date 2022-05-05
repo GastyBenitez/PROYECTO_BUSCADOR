@@ -2,6 +2,8 @@
 const resultado = document.querySelector("#resultado");
 const year = document.querySelector("#year");
 const marca = document.querySelector("#marca");
+const minimo = document.querySelector("#minimo");
+const maximo = document.querySelector("#maximo");
 
 const maxYear = new Date().getFullYear();
 const minYear = maxYear - 10;
@@ -18,7 +20,8 @@ const datosBusqueda =
     marca: '',
     modelo: '',
     year: "",
-    precio: "",
+    minimo: 0,
+    maximo: 0,
     puertas: "",
     color: '',
     transmision: ''
@@ -57,9 +60,29 @@ function llenarSelect(){
 }
 
 function filtrarAuto() {
-    const resultado = autos.filter(filtrarMarca).filter(filtrarYear)
-    console.log(resultado);
-    mostrarAutos(resultado);
+    
+    const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor).filter(filtrarMinimo).filter(filtrarMaximo)
+    if(resultado.length){
+        console.log(resultado);
+        mostrarAutos(resultado);
+    }else {
+        limpiarHTML()
+        noTieneAuto()
+        
+    }
+    
+    
+        
+    
+    
+    
+}
+
+function noTieneAuto(){
+    const noResultado = document.createElement("div");
+    noResultado.classList.add("alerta", "error");
+    noResultado.textContent = "No existen autos para la busqueda realizada";
+    resultado.appendChild(noResultado);
     
     
 }
@@ -80,6 +103,51 @@ function filtrarYear (auto) {
 }
 
 
+
+function filtrarPuertas (auto) {
+    if(datosBusqueda.puertas){
+        return auto.puertas === parseInt (datosBusqueda.puertas)
+        
+    }
+    return auto
+}
+
+function filtrarTransmision (auto) {
+    if(datosBusqueda.transmision){
+        return auto.transmision === datosBusqueda.transmision
+    }
+    return auto
+}
+
+function filtrarColor (auto) {
+    if(datosBusqueda.color){
+        return auto.color === datosBusqueda.color
+    }
+    return auto
+}
+
+function filtrarMinimo(auto){
+    const {minimo} = datosBusqueda
+
+    if(minimo){
+        return auto.precio >= datosBusqueda.minimo
+    }
+    return auto
+}
+
+function filtrarMaximo(auto){
+    const {maximo} = datosBusqueda
+
+    if(maximo){
+        return auto.precio <= datosBusqueda.maximo
+    }
+    return auto
+}
+
+
+
+
+
 //LISTENER 
 
 marca.addEventListener("change",(e)=>{
@@ -92,3 +160,30 @@ year.addEventListener("change", (e) =>{
     datosBusqueda.year = e.target.value
     filtrarAuto()
 });
+
+puertas.addEventListener("change", (e) =>{
+    datosBusqueda.puertas = e.target.value
+    filtrarAuto()
+});
+
+transmision.addEventListener("change", (e)=>{
+    datosBusqueda.transmision = e.target.value
+    filtrarAuto()
+});
+
+color.addEventListener("change", (e)=>{
+    datosBusqueda.color = e.target.value
+    filtrarAuto()
+});
+
+minimo.addEventListener("change", (e) =>{
+    datosBusqueda.minimo = e.target.value
+    filtrarAuto()
+});
+
+maximo.addEventListener("change", (e) =>{
+    datosBusqueda.maximo = e.target.value
+    filtrarAuto()
+});
+
+
